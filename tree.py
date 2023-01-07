@@ -12,16 +12,6 @@ class Node:
   def children(self):
     return self._children
 
-  def add_child(self, node):
-    if node not in self._children:
-      self._children.append(node)
-      node.parent = self
-
-  def remove_child(self, node):
-    if node in self._children:
-      self._children.remove(node)
-      node.parent = None
-
   @property
   def parent(self):
     return self._parent
@@ -36,6 +26,16 @@ class Node:
     if node is not None:
       node.add_child(self)
         
+  def add_child(self, node):
+    if node not in self._children:
+      self._children.append(node)
+      node.parent = self
+
+  def remove_child(self, node):
+    if node in self._children:
+      self._children.remove(node)
+      node.parent = None
+      
   def depth_search(self, value):
     stack = [self]
     while len(stack):
