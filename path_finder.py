@@ -22,16 +22,22 @@ class KnightPathFinder:
 
   def new_move_positions(self, pos):
     valid_moves = set(self.get_valid_moves(pos))
-    return valid_moves - self._considered_positions
+    valid_moves -= self._considered_positions
+    self._considered_positions.update(valid_moves)
+    return valid_moves
 
   def build_move_tree(self):
-    valid_moves = self.new_move_positions(self._root.value)
-    for move in valid_moves:
-      child_node = Node(move)
-      self._root.add_child(child_node)
-    print([x.value for x in self._root.children])
+    queue = [self._root]
+    while len(queue):
+      node = queue.pop(0)
+      pos = self.new_move_positions(node.value)
+      for move in pos:
+        child_node = Node(move)
+        node.add_child(child_node)
+        queue.append(child_node)
 
 
-finder = KnightPathFinder((4, 4))
-finder.build_move_tree()
+
+finder = KnightPathFinder((0, 0))
 print(finder.new_move_positions((0, 0)))   # Expected outcome: {(1, 2), (2, 1)}
+finder.build_move_tree()
